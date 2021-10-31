@@ -3,7 +3,7 @@ import random
 import time
 
 tk = Tk()
-tk.title("igra")
+tk.title("Игра")
 tk.resizable(0, 0)
 tk.wm_attributes("-topmost", 1)
 
