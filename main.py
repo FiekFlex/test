@@ -64,22 +64,51 @@ class Paddle:
         self.x = 2
 
 
+def restart():
+    canvas.delete('all')
+    global dead
+    dead = False
+    global paddle
+    paddle=Paddle(canvas, 'blue')
+    global ball
+    ball = Ball(canvas, paddle, 'red')
+
+
+def onKeyPress(event):
+    if not dead:
+        return
+    if event.char == " ":
+        restart()
+
+
 tk = Tk()
-tk.title("Прыг-скок")
+tk.title("Arkanoid")
 tk.resizable(0, 0)
 tk.wm_attributes("-topmost", 1)
-
-canvas = Canvas(tk, width=500, height=400, bd=0, highlightthickness=0)
+tk.bind('<KeyPress>', onKeyPress)
+W = 500
+H = 400
+canvas = Canvas(tk, width=W, height=H, bd=0, highlightthickness=0)
 canvas.pack()
 tk.update()
+restart()
 
-paddle = Paddle(canvas, 'blue')
-ball = Ball(canvas, paddle, 'red')
+
+def gameover():
+    canvas.create_text(W / 2, H / 2 - 30, text="Game over", fill="red", font=('Helvetica 35'))
+    canvas.create_text(W / 2 + 5, H / 2 + 25, text="Press space button", fill="green", font=('Helvetica 20'))
+    global dead
+    dead = True
+
+
+
 
 while 1:
-    if ball.hit_bottom == False:
+    if not ball.hit_bottom:
         ball.draw()
         paddle.draw()
+    else:
+        gameover()
     tk.update_idletasks()
     tk.update()
     time.sleep(0.01)
