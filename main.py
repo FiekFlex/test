@@ -2,6 +2,8 @@ from tkinter import *
 import random
 import time
 
+import winsound
+
 
 def showscore(canvas, score):
     global scoretext
@@ -30,6 +32,7 @@ class Ball:
                 global score
                 score += 1
                 showscore(self.canvas, score)
+                winsound.Beep(660, 50)
                 return True
             return False
 
@@ -59,6 +62,7 @@ class Paddle:
         self.canvas.bind_all('<KeyPress-Right>', self.turn_right)
         self.canvas.bind_all('<KeyPress-a>', self.turn_left)
         self.canvas.bind_all('<KeyPress-d>', self.turn_right)
+
     def draw(self):
         self.canvas.move(self.id, self.x, 0)
         pos = self.canvas.coords(self.id)
@@ -79,12 +83,13 @@ def restart():
     global dead
     dead = False
     global paddle
-    paddle=Paddle(canvas, 'blue')
+    paddle = Paddle(canvas, 'blue')
     global ball
     ball = Ball(canvas, paddle, 'red')
     global score
     score = 0
-    showscore(canvas,score)
+    showscore(canvas, score)
+
 
 def onKeyPress(event):
     if not dead:
@@ -112,8 +117,6 @@ def gameover():
     canvas.create_text(W / 2 + 5, H / 2 + 25, text="Press space button", fill="green", font=('Helvetica 20'))
     global dead
     dead = True
-
-
 
 
 while 1:
