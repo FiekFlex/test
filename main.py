@@ -3,6 +3,12 @@ import random
 import time
 
 
+def showscore(canvas, score):
+    global scoretext
+    if scoretext is not None:
+        canvas.delete(scoretext)
+    scoretext=canvas.create_text(20,20, text=score, fill="green", font=('Helvetica 20 bold'))
+
 class Ball:
     def __init__(self, canvas, paddle, color):
         self.canvas = canvas
@@ -21,6 +27,9 @@ class Ball:
         paddle_pos = self.canvas.coords(self.paddle.id)
         if pos[2] >= paddle_pos[0] and pos[0] <= paddle_pos[2]:
             if pos[3] >= paddle_pos[1] and pos[3] <= paddle_pos[3]:
+                global score
+                score += 1
+                showscore(self.canvas, score)
                 return True
             return False
 
@@ -48,7 +57,8 @@ class Paddle:
         self.canvas_width = self.canvas.winfo_width()
         self.canvas.bind_all('<KeyPress-Left>', self.turn_left)
         self.canvas.bind_all('<KeyPress-Right>', self.turn_right)
-
+        self.canvas.bind_all('<KeyPress-a>', self.turn_left)
+        self.canvas.bind_all('<KeyPress-d>', self.turn_right)
     def draw(self):
         self.canvas.move(self.id, self.x, 0)
         pos = self.canvas.coords(self.id)
@@ -72,7 +82,9 @@ def restart():
     paddle=Paddle(canvas, 'blue')
     global ball
     ball = Ball(canvas, paddle, 'red')
-
+    global score
+    score = 0
+    showscore(canvas,score)
 
 def onKeyPress(event):
     if not dead:
@@ -81,6 +93,7 @@ def onKeyPress(event):
         restart()
 
 
+scoretext=None
 tk = Tk()
 tk.title("Arkanoid")
 tk.resizable(0, 0)
