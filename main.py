@@ -32,7 +32,7 @@ class Ball:
                 global score
                 score += 1
                 showscore(self.canvas, score)
-                winsound.Beep(660, 50)
+                winsound.Beep(660, 25)
                 return True
             return False
 
@@ -106,7 +106,7 @@ tk.wm_attributes("-topmost", 1)
 tk.bind('<KeyPress>', onKeyPress)
 W = 500
 H = 400
-canvas = Canvas(tk, width=W, height=H, bd=0, highlightthickness=0)
+canvas = Canvas(tk, width=W, height=H, bd=0, highlightthickness=0, bg='cyan')
 canvas.pack()
 tk.update()
 restart()
@@ -127,4 +127,4 @@ while 1:
         gameover()
     tk.update_idletasks()
     tk.update()
-    time.sleep(0.01)
+    time.sleep(0.005)
