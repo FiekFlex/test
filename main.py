@@ -1,9 +1,9 @@
 from tkinter import *
 import random
 import time
-
+from playsound import playsound
 import winsound
-
+import threading
 
 def showscore(canvas, score):
     global scoretext
@@ -32,7 +32,8 @@ class Ball:
                 global score
                 score += 1
                 showscore(self.canvas, score)
-                winsound.Beep(660, 25)
+#                winsound.Beep(660, 25)
+                play()
                 return True
             return False
 
@@ -97,6 +98,8 @@ def onKeyPress(event):
     if event.char == " ":
         restart()
 
+def play():
+    threading.Thread(target=playsound, args=('sound.mp3',), daemon=True).start()
 
 scoretext=None
 tk = Tk()
@@ -127,4 +130,4 @@ while 1:
         gameover()
     tk.update_idletasks()
     tk.update()
-    time.sleep(0.005)
+    time.sleep(0.007)
